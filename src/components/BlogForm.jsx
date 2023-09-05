@@ -16,6 +16,7 @@ const BlogForm = ({ setBlogs, setNotification }) => {
         } else {
             const newBlog = await blogService.create({title, author, url})
             setBlogs(blogs => blogs.concat(newBlog))
+            setNotification({message: `a new blog ${newBlog.title} by ${newBlog.author} added`, variant: 'success'})
             setTitle('')
             setAuthor('')
             setUrl('')

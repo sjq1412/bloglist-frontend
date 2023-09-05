@@ -18,7 +18,7 @@ const LoginForm = ({setUser, setNotification}) => {
         setPassword('')
     } catch(exception) {
         console.error({exception})
-        setNotification({ message: 'Wrong credentials', variant: 'error' })
+        setNotification({ message: 'wrong username or password', variant: 'error' })
     }
   }
 
