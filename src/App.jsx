@@ -5,10 +5,20 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import "./index.css"
 
+const storageLoggedUserKey = 'loggedBlogappUser'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ message: null, variant: null })
+
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem(storageLoggedUserKey)
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser)
+      setUser(user)
+    }
+  }, [])
 
   useEffect(() => {
     const clearNotification = () => setTimeout(() => {
@@ -29,6 +39,11 @@ const App = () => {
     )  
   }, [])
 
+  const handleLogout = () => {
+    window.localStorage.removeItem(storageLoggedUserKey)
+    setUser(null)
+  }
+
   return (
     <div>
       <Notification message={notification?.message} variant={notification?.variant} />
@@ -36,6 +51,7 @@ const App = () => {
       {
         user && <div>
           <h2>blogs</h2>
+          <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}

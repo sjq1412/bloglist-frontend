@@ -11,6 +11,7 @@ const LoginForm = ({setUser, setNotification}) => {
     try {
         const user = await loginService.login({ username, password })
         setUser(user)
+        window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
         setUsername('')
         setPassword('')
     } catch(exception) {
