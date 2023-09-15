@@ -68,11 +68,13 @@ const App = () => {
     <div>
       <Notification message={notification?.message} variant={notification?.variant} />
       {!user && <LoginForm setUser={setUser} setNotification={setNotification} />}
+      <br />
       {
         user && <div>
           <h2>blogs</h2>
           <div>{user.name} logged in <button onClick={handleLogout}>logout</button></div>
-          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <br />
+          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm createBlog={handleCreateBlog} />
           </Togglable>
           <Blogs blogs={blogs} />
