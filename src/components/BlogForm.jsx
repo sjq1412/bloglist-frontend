@@ -1,36 +1,36 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({  createBlog  }) => { 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleCreateBlog = (event) => {
+  const handleCreateBlog = (event) => { 
     event.preventDefault()
 
-    const blogObject = {
+    const blogObject = { 
         title,
         author,
         url
-    }
+     }
 
     createBlog(blogObject)
     setTitle('')
     setAuthor('')
     setUrl('')
-  }
+   }
 
   return (
     <div>
         <h2>create new</h2>
-        <form onSubmit={handleCreateBlog}>
+        <form onSubmit={ handleCreateBlog }>
             <div>
                 title:
                 <input
                     type="text"
                     name='title'
-                    value={title}
-                    onChange={({target}) => setTitle(target.value)}
+                    value={ title }
+                    onChange={ ({ target }) => setTitle(target.value)}
                 />
             </div>
             <div>
@@ -38,8 +38,8 @@ const BlogForm = ({ createBlog }) => {
                 <input
                     type="text"
                     name='author'
-                    value={author}
-                    onChange={({target}) => setAuthor(target.value)}
+                    value={ author }
+                    onChange={ ({ target }) => setAuthor(target.value)}
                 />
             </div>
             <div>
@@ -47,14 +47,14 @@ const BlogForm = ({ createBlog }) => {
                 <input
                     type="text"
                     name='url'
-                    value={url}
-                    onChange={({target}) => setUrl(target.value)}
+                    value={ url }
+                    onChange={ ({ target }) => setUrl(target.value)}
                 />
             </div>
             <button type='submit' >create</button>
         </form>
     </div>
   )
-}
+ }
 
 export default BlogForm
