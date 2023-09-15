@@ -64,6 +64,28 @@ const App = () => {
     }
   }
 
+  const handleLike = async (id) => {
+    try {
+      const blog = blogs.find(blog => blog.id === id)
+      if (!blog) {
+        setNotification({ message: 'Blog not found', variant: 'error'})
+      } else {
+        const blogObject = {
+          author: blog.author,
+          title: blog.title,
+          url: blog.url,
+          likes: (blog?.likes || 0) + 1,
+          user: blog?.user?.id
+        }
+        const updatedBlog = await blogService.update(id, blogObject)
+        setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog))
+      }
+    } catch (error) {
+        console.error({error})
+        setNotification({ message: error.message, variant: 'error' })
+    }
+  };
+
   return (
     <div>
       <Notification message={notification?.message} variant={notification?.variant} />
@@ -77,7 +99,7 @@ const App = () => {
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm createBlog={handleCreateBlog} />
           </Togglable>
-          <Blogs blogs={blogs} />
+          <Blogs blogs={blogs} like={handleLike} />
         </div> 
       }
     </div>
