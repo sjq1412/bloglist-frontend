@@ -58,9 +58,9 @@ const App = () => {
             setNotification({message: `a new blog ${newBlog.title} by ${newBlog.author} added`, variant: 'success'})
             blogFormRef.current.toggleVisibility()
         }
-    } catch (exception) {
-        console.error({exception})
-        setNotification({ message: exception.message, variant: 'error' })
+    } catch (error) {
+        console.error({error})
+        setNotification({ message: error.response.data.error, variant: 'error' })
     }
   }
 
@@ -82,9 +82,20 @@ const App = () => {
       }
     } catch (error) {
         console.error({error})
-        setNotification({ message: error.message, variant: 'error' })
+        setNotification({ message: error.response.data.error, variant: 'error' })
     }
   };
+
+  const handleRemove = async (blogToRemove) => {
+    try {
+      await blogService.remove(blogToRemove.id)
+      setBlogs(blogs.filter(blog => blog.id !== blogToRemove.id))
+      setNotification({ message: `Successfully removed ${blogToRemove.title} by ${blogToRemove.author}`, variant: 'success' })
+    } catch (error) {
+      console.error({error})
+      setNotification({ message: error.response.data.error, variant: 'error' })
+    }
+  }
 
   return (
     <div>
@@ -99,7 +110,7 @@ const App = () => {
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm createBlog={handleCreateBlog} />
           </Togglable>
-          <Blogs blogs={blogs} like={handleLike} />
+          <Blogs blogs={blogs} like={handleLike} remove={handleRemove} user={user} />
         </div> 
       }
     </div>
