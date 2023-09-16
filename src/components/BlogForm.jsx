@@ -27,6 +27,7 @@ const BlogForm = ({  createBlog  }) => {
         <div>
                 title:
           <input
+            placeholder='title'
             type="text"
             name='title'
             value={ title }
@@ -36,6 +37,7 @@ const BlogForm = ({  createBlog  }) => {
         <div>
                 author:
           <input
+            placeholder='author'
             type="text"
             name='author'
             value={ author }
@@ -45,6 +47,7 @@ const BlogForm = ({  createBlog  }) => {
         <div>
                 url:
           <input
+            placeholder='url'
             type="text"
             name='url'
             value={ url }
