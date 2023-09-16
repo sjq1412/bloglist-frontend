@@ -5,7 +5,7 @@ import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
-import "./index.css"
+import './index.css'
 
 const storageLoggedUserKey = 'loggedBlogappUser'
 
@@ -27,8 +27,8 @@ const App = () => {
   useEffect(() => {
     const clearNotification = () => setTimeout(() => {
       setNotification(null)
-    }, 3000);
-    
+    }, 3000)
+
     if (notification) {
       clearNotification()
     }
@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   const handleLogout = () => {
@@ -50,17 +50,17 @@ const App = () => {
 
   const handleCreateBlog = async (blogObject) => {
     try {
-        if (!blogObject.title || !blogObject.author || !blogObject.url) {
-            setNotification({message: 'Please complete all fields', variant: 'error'})
-        } else {
-            const newBlog = await blogService.create(blogObject)
-            setBlogs(blogs => blogs.concat(newBlog))
-            setNotification({message: `a new blog ${newBlog.title} by ${newBlog.author} added`, variant: 'success'})
-            blogFormRef.current.toggleVisibility()
-        }
+      if (!blogObject.title || !blogObject.author || !blogObject.url) {
+        setNotification({ message: 'Please complete all fields', variant: 'error' })
+      } else {
+        const newBlog = await blogService.create(blogObject)
+        setBlogs(blogs => blogs.concat(newBlog))
+        setNotification({ message: `a new blog ${newBlog.title} by ${newBlog.author} added`, variant: 'success' })
+        blogFormRef.current.toggleVisibility()
+      }
     } catch (error) {
-        console.error({error})
-        setNotification({ message: error.response.data.error, variant: 'error' })
+      console.error({ error })
+      setNotification({ message: error.response.data.error, variant: 'error' })
     }
   }
 
@@ -68,7 +68,7 @@ const App = () => {
     try {
       const blog = blogs.find(blog => blog.id === id)
       if (!blog) {
-        setNotification({ message: 'Blog not found', variant: 'error'})
+        setNotification({ message: 'Blog not found', variant: 'error' })
       } else {
         const blogObject = {
           author: blog.author,
@@ -81,10 +81,10 @@ const App = () => {
         setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog))
       }
     } catch (error) {
-        console.error({error})
-        setNotification({ message: error.response.data.error, variant: 'error' })
+      console.error({ error })
+      setNotification({ message: error.response.data.error, variant: 'error' })
     }
-  };
+  }
 
   const handleRemove = async (blogToRemove) => {
     try {
@@ -92,7 +92,7 @@ const App = () => {
       setBlogs(blogs.filter(blog => blog.id !== blogToRemove.id))
       setNotification({ message: `Successfully removed ${blogToRemove.title} by ${blogToRemove.author}`, variant: 'success' })
     } catch (error) {
-      console.error({error})
+      console.error({ error })
       setNotification({ message: error.response.data.error, variant: 'error' })
     }
   }
@@ -111,7 +111,7 @@ const App = () => {
             <BlogForm createBlog={handleCreateBlog} />
           </Togglable>
           <Blogs blogs={blogs} like={handleLike} remove={handleRemove} user={user} />
-        </div> 
+        </div>
       }
     </div>
   )

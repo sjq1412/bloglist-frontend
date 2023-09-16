@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, like, remove, user }) => {
   const [visible, setVisible] = useState(false)
-  const showWhenVisible = {display: visible ? ''  : 'none'}
+  const showWhenVisible = { display: visible ? ''  : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -35,7 +35,7 @@ const Blog = ({ blog, like, remove, user }) => {
         }
         {user.username === blog.user?.username && <button onClick={() => handleRemove(blog)}>remove</button>}
       </div>
-    </div>  
+    </div>
   )
 }
 
