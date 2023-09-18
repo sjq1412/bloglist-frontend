@@ -24,18 +24,18 @@ const App = () => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   const clearNotification = () => setTimeout(() => {
-  //     setNotification(null)
-  //   }, 5000)
+  useEffect(() => {
+    const clearNotification = () => setTimeout(() => {
+      setNotification(null)
+    }, 5000)
 
-  //   if (notification) {
-  //     clearNotification()
-  //   }
-  //   return () => {
-  //     clearTimeout(clearNotification)
-  //   }
-  // }, [notification])
+    if (notification) {
+      clearNotification()
+    }
+    return () => {
+      clearTimeout(clearNotification)
+    }
+  }, [notification])
 
   useEffect(() => {
     blogService.getAll().then(blogs =>

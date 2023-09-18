@@ -18,7 +18,7 @@ describe('Blog app', function () {
   })
 
   describe('Login', function () {
-    it.only('login fails with wrong credentials', function () {
+    it('login fails with wrong credentials', function () {
       cy.get('input[placeholder="username"]').type('sarah')
       cy.get('input[placeholder="password"]').type('wrongpassword')
       cy.contains('button', 'login').click()
@@ -37,7 +37,24 @@ describe('Blog app', function () {
       cy.contains('Sarah Jane logged in').contains('button', 'logout')
       cy.contains('button', 'create new blog')
     })
+  })
 
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'sarah', password: 'mypassword' })
+      cy.visit('')
+    })
 
+    it('A blog can be created', function() {
+      cy.contains('button', 'create new blog').click()
+      cy.get('input[placeholder="title"]').type('New Blog from Cypress')
+      cy.get('input[placeholder="author"]').type('Cypress')
+      cy.get('input[placeholder="url"]').type('https://www.google.com')
+
+      cy.get('#create-blog-button').click()
+      cy.get('.notification').contains('a new blog New Blog from Cypress by Cypress added').should('be.visible')
+
+      cy.get('.blogList').contains('New Blog from Cypress').contains('button', 'view')
+    })
   })
 })
