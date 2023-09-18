@@ -42,6 +42,7 @@ describe('Blog app', function () {
   describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'sarah', password: 'mypassword' })
+      cy.createBlog({ title: 'My Blog', author: 'Jungkook', url: 'https://www.google.com' })
       cy.visit('')
     })
 
@@ -55,6 +56,15 @@ describe('Blog app', function () {
       cy.get('.notification').contains('a new blog New Blog from Cypress by Cypress added').should('be.visible')
 
       cy.get('.blogList').contains('New Blog from Cypress').contains('button', 'view')
+    })
+
+    it('Users can like a blog', function () {
+      cy.get('.blogList').contains('My Blog').as('blog')
+      cy.get('@blog').contains('button', 'view').click()
+      cy.get('@blog').get('.likes').contains('0')
+
+      cy.get('@blog').get('.likeButton').click()
+      cy.get('@blog').get('.likes').contains('1')
     })
   })
 })

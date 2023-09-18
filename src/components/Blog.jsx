@@ -27,7 +27,7 @@ const Blog = ({ blog, like, remove, user }) => {
       {blog.title} {blog.author} <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
       <div style={showWhenVisible} className='blogDetails'>
         <div>{blog.url}</div>
-        <div>likes {blog.likes || 0} <button className='likeButton' onClick={() => like(blog.id)}>like</button></div>
+        <div>likes <span className='likes'>{blog.likes || 0}</span> <button className='likeButton' onClick={() => like(blog.id)}>like</button></div>
         {
           blog?.user && <div>
             {blog.user.name}
