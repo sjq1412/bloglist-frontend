@@ -1,12 +1,17 @@
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`)
-    const user = {
+    const users = [{
       name: 'Sarah Jane',
       username: 'sarah',
       password: 'mypassword'
-    }
-    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
+    }, {
+      name: 'Jung Kook',
+      username: 'bts.jungkook',
+      password: 'mypassword'
+    }]
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, users[0])
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, users[1])
     cy.visit('')
   })
 
@@ -42,7 +47,7 @@ describe('Blog app', function () {
   describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'sarah', password: 'mypassword' })
-      cy.createBlog({ title: 'My Blog', author: 'Jungkook', url: 'https://www.google.com' })
+      cy.createBlog({ title: 'My Blog', author: 'Sarah J', url: 'https://www.google.com' })
       cy.visit('')
     })
 
@@ -65,6 +70,25 @@ describe('Blog app', function () {
 
       cy.get('@blog').get('.likeButton').click()
       cy.get('@blog').get('.likes').contains('1')
+    })
+
+    it('Users can delete their own blog and not blogs by other users', function () {
+      cy.contains('button', 'logout').click()
+
+      cy.login({ username: 'bts.jungkook', password: 'mypassword' })
+      cy.createBlog({ title: 'Butterfly', author: 'JK', url: 'https://www.google.com' })
+      cy.createBlog({ title: 'Annyeonghaseyo', author: 'JK', url: 'https://www.google.com' })
+
+      cy.get('.blogList').contains('My Blog').as('blogBySarah')
+      cy.get('.blogList').contains('Butterfly').as('blogByJungkook')
+      cy.get('@blogBySarah').contains('button', 'view').click()
+      cy.get('@blogBySarah').get('.blogDetails').should('not.contain', 'button.remove')
+
+      cy.get('@blogByJungkook').contains('button', 'view').click()
+      cy.get('@blogByJungkook').get('.blogDetails').contains('button', 'remove').click()
+      cy.get('.notification').contains('Successfully removed Butterfly by JK')
+
+      cy.get('.blogList').should('not.contain', 'Butterfly')
     })
   })
 })
