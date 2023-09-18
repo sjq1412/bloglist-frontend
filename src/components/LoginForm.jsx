@@ -28,6 +28,7 @@ const LoginForm = ({ setUser, setNotification }) => {
       <form onSubmit={handleLogin}>
         <div>username
           <input
+            placeholder='username'
             type='text'
             name="username"
             value={username}
@@ -36,6 +37,7 @@ const LoginForm = ({ setUser, setNotification }) => {
         </div>
         <div>password
           <input
+            placeholder='password'
             type='text'
             name="password"
             value={password}
