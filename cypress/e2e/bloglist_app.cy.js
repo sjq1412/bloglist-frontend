@@ -90,5 +90,17 @@ describe('Blog app', function () {
 
       cy.get('.blogList').should('not.contain', 'Butterfly')
     })
+
+    it('Blogs are ordered according to likes, with most likes at the top', function () {
+      cy.createBlog({ title: 'Most likes', author: 'JK', url: 'https://www.google.com' })
+
+      cy.get('.blog').contains('Most likes').as('mostLikes')
+
+      cy.get('@mostLikes').contains('button', 'view').click()
+      cy.get('@mostLikes').find('.likeButton').click()
+
+      cy.get('.blog').eq(0).should('contain', 'Most likes')
+      cy.get('.blog').eq(1).should('contain', 'My Blog')
+    })
   })
 })
