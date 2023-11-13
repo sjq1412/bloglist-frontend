@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { setNotification } from './reducers/notificationReducer';
+
 import Blogs from './components/Blogs';
 import BlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
@@ -10,12 +14,10 @@ import './index.css';
 const storageLoggedUserKey = 'loggedBlogappUser';
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({
-    message: null,
-    variant: null,
-  });
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -26,20 +28,6 @@ const App = () => {
       blogService.getToken(user.token);
     }
   }, []);
-
-  useEffect(() => {
-    const clearNotification = () =>
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-
-    if (notification) {
-      clearNotification();
-    }
-    return () => {
-      clearTimeout(clearNotification);
-    };
-  }, [notification]);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -53,22 +41,35 @@ const App = () => {
   const handleCreateBlog = async (blogObject) => {
     try {
       if (!blogObject.title || !blogObject.author || !blogObject.url) {
-        setNotification({
-          message: 'Please complete all fields',
-          variant: 'error',
-        });
+        dispatch(
+          setNotification({
+            message: 'Please complete all fields',
+            variant: 'error',
+          }),
+        );
       } else {
         const newBlog = await blogService.create(blogObject);
         setBlogs((blogs) => blogs.concat(newBlog));
-        setNotification({
-          message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
-          variant: 'success',
-        });
+        dispatch(
+          setNotification({
+            message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
+            variant: 'success',
+          }),
+        );
         blogFormRef.current.toggleVisibility();
       }
     } catch (error) {
       console.error({ error });
-      setNotification({ message: error.response.data.error, variant: 'error' });
+      if (error.response.status === 401) {
+        window.localStorage.removeItem(storageLoggedUserKey);
+        setUser(null);
+      }
+      dispatch(
+        setNotification({
+          message: error.response.data.error,
+          variant: 'error',
+        }),
+      );
     }
   };
 
@@ -76,7 +77,9 @@ const App = () => {
     try {
       const blog = blogs.find((blog) => blog.id === id);
       if (!blog) {
-        setNotification({ message: 'Blog not found', variant: 'error' });
+        dispatch(
+          setNotification({ message: 'Blog not found', variant: 'error' }),
+        );
       } else {
         const blogObject = {
           author: blog.author,
@@ -90,7 +93,12 @@ const App = () => {
       }
     } catch (error) {
       console.error({ error });
-      setNotification({ message: error.response.data.error, variant: 'error' });
+      dispatch(
+        setNotification({
+          message: error.response.data.error,
+          variant: 'error',
+        }),
+      );
     }
   };
 
@@ -98,25 +106,27 @@ const App = () => {
     try {
       await blogService.remove(blogToRemove.id);
       setBlogs(blogs.filter((blog) => blog.id !== blogToRemove.id));
-      setNotification({
-        message: `Successfully removed ${blogToRemove.title} by ${blogToRemove.author}`,
-        variant: 'success',
-      });
+      dispatch(
+        setNotification({
+          message: `Successfully removed ${blogToRemove.title} by ${blogToRemove.author}`,
+          variant: 'success',
+        }),
+      );
     } catch (error) {
       console.error({ error });
-      setNotification({ message: error.response.data.error, variant: 'error' });
+      dispatch(
+        setNotification({
+          message: error.response.data.error,
+          variant: 'error',
+        }),
+      );
     }
   };
 
   return (
     <div>
-      <Notification
-        message={notification?.message}
-        variant={notification?.variant}
-      />
-      {!user && (
-        <LoginForm setUser={setUser} setNotification={setNotification} />
-      )}
+      <Notification />
+      {!user && <LoginForm setUser={setUser} />}
       <br />
       {user && (
         <div>

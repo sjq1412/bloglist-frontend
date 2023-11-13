@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { setNotification } from '../reducers/notificationReducer';
+
 import loginService from '../services/login';
 import blogService from '../services/blogs';
 
-const LoginForm = ({ setUser, setNotification }) => {
+const LoginForm = ({ setUser }) => {
+  const dispatch = useDispatch();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,10 +24,12 @@ const LoginForm = ({ setUser, setNotification }) => {
       setPassword('');
     } catch (exception) {
       console.error({ exception });
-      setNotification({
-        message: 'wrong username or password',
-        variant: 'error',
-      });
+      dispatch(
+        setNotification({
+          message: 'wrong username or password',
+          variant: 'error',
+        }),
+      );
     }
   };
 
