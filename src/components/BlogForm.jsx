@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-const BlogForm = ({ createBlog }) => {
+import { setNotification } from '../reducers/notificationReducer';
+import { createBlog } from '../reducers/blogReducer';
+
+const BlogForm = ({ blogFormRef, setUser, storageLoggedUserKey }) => {
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
@@ -14,7 +20,38 @@ const BlogForm = ({ createBlog }) => {
       url,
     };
 
-    createBlog(blogObject);
+    try {
+      if (!blogObject.title || !blogObject.author || !blogObject.url) {
+        dispatch(
+          setNotification({
+            message: 'Please complete all fields',
+            variant: 'error',
+          }),
+        );
+      } else {
+        dispatch(createBlog(blogObject));
+        dispatch(
+          setNotification({
+            message: `a new blog ${blogObject.title} by ${blogObject.author} added`,
+            variant: 'success',
+          }),
+        );
+        blogFormRef.current.toggleVisibility();
+      }
+    } catch (error) {
+      console.error({ error });
+      if (error.response.status === 401) {
+        window.localStorage.removeItem(storageLoggedUserKey);
+        setUser(null);
+      }
+      dispatch(
+        setNotification({
+          message: error.response.data.error,
+          variant: 'error',
+        }),
+      );
+    }
+
     setTitle('');
     setAuthor('');
     setUrl('');
