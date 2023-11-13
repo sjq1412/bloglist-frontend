@@ -1,63 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const BlogForm = ({  createBlog  }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+const BlogForm = ({ createBlog }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
   const handleCreateBlog = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const blogObject = {
       title,
       author,
-      url
-    }
+      url,
+    };
 
-    createBlog(blogObject)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-  }
+    createBlog(blogObject);
+    setTitle('');
+    setAuthor('');
+    setUrl('');
+  };
 
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={ handleCreateBlog }>
+      <form onSubmit={handleCreateBlog}>
         <div>
-                title:
+          title:
           <input
-            placeholder='title'
+            placeholder="title"
             type="text"
-            name='title'
-            value={ title }
-            onChange={ ({ target }) => setTitle(target.value)}
+            name="title"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-                author:
+          author:
           <input
-            placeholder='author'
+            placeholder="author"
             type="text"
-            name='author'
-            value={ author }
-            onChange={ ({ target }) => setAuthor(target.value)}
+            name="author"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-                url:
+          url:
           <input
-            placeholder='url'
+            placeholder="url"
             type="text"
-            name='url'
-            value={ url }
-            onChange={ ({ target }) => setUrl(target.value)}
+            name="url"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button id="create-blog-button" type='submit' >create</button>
+        <button id="create-blog-button" type="submit">
+          create
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default BlogForm
+export default BlogForm;
