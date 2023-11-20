@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm';
 
 import BlogsPage from './pages/BlogsPage';
 import UsersPage from './pages/UsersPage';
+import UserPage from './pages/UserPage';
 
 import './index.css';
 import { initializeBlogs } from './reducers/blogReducer';
@@ -44,6 +45,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<BlogsPage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/users/:id" element={<UserPage />} />
           </Routes>
         </div>
       )}
