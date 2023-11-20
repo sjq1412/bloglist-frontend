@@ -5,11 +5,14 @@ import { Routes, Route } from 'react-router-dom';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 import blogService from './services/blogs';
+import usersService from './services/users';
 
-import BlogPage from './pages/BlogPage';
+import BlogsPage from './pages/BlogsPage';
+import UsersPage from './pages/UsersPage';
 
 import './index.css';
 import { initializeBlogs } from './reducers/blogReducer';
+import { initializeUsers } from './reducers/usersReducer';
 
 const storageLoggedUserKey = 'loggedBlogappUser';
 
@@ -23,11 +26,13 @@ const App = () => {
       const user = JSON.parse(loggedUser);
       setUser(user);
       blogService.getToken(user.token);
+      usersService.getToken(user.token);
     }
   }, []);
 
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, [dispatch]);
 
   const handleLogout = () => {
@@ -51,13 +56,14 @@ const App = () => {
             <Route
               path="/"
               element={
-                <BlogPage
+                <BlogsPage
                   user={user}
                   setUser={setUser}
                   storageLoggedUserKey={storageLoggedUserKey}
                 />
               }
             />
+            <Route path="/users" element={<UsersPage />} />
           </Routes>
         </div>
       )}

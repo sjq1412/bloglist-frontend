@@ -4,7 +4,7 @@ import Togglable from '../components/Togglable';
 import BlogForm from '../components/BlogForm';
 import Blogs from '../components/Blogs';
 
-const BlogPage = ({ user, setUser, storageLoggedUserKey }) => {
+const BlogsPage = ({ user, setUser, storageLoggedUserKey }) => {
   const blogFormRef = useRef();
 
   return (
@@ -21,4 +21,4 @@ const BlogPage = ({ user, setUser, storageLoggedUserKey }) => {
   );
 };
 
-export default BlogPage;
+export default BlogsPage;
