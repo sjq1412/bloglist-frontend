@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setNotification } from '../reducers/notificationReducer';
+import { logoutUser } from '../reducers/userReducer';
 import { createBlog } from '../reducers/blogReducer';
 
-const BlogForm = ({ blogFormRef, setUser, storageLoggedUserKey }) => {
+const BlogForm = ({ blogFormRef }) => {
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
@@ -41,8 +42,7 @@ const BlogForm = ({ blogFormRef, setUser, storageLoggedUserKey }) => {
     } catch (error) {
       console.error({ error });
       if (error.response.status === 401) {
-        window.localStorage.removeItem(storageLoggedUserKey);
-        setUser(null);
+        dispatch(logoutUser());
       }
       dispatch(
         setNotification({

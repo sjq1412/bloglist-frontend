@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
-import blogService from './services/blogs';
-import usersService from './services/users';
 
 import BlogsPage from './pages/BlogsPage';
 import UsersPage from './pages/UsersPage';
@@ -13,56 +11,38 @@ import UsersPage from './pages/UsersPage';
 import './index.css';
 import { initializeBlogs } from './reducers/blogReducer';
 import { initializeUsers } from './reducers/usersReducer';
-
-const storageLoggedUserKey = 'loggedBlogappUser';
+import { getStorageUser, logoutUser } from './reducers/userReducer';
 
 const App = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem(storageLoggedUserKey);
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser);
-      setUser(user);
-      blogService.getToken(user.token);
-      usersService.getToken(user.token);
-    }
-  }, []);
-
-  useEffect(() => {
-    dispatch(initializeBlogs());
-    dispatch(initializeUsers());
+    dispatch(getStorageUser());
   }, [dispatch]);
 
-  const handleLogout = () => {
-    window.localStorage.removeItem(storageLoggedUserKey);
-    setUser(null);
-  };
+  useEffect(() => {
+    if (user) {
+      dispatch(initializeBlogs());
+      dispatch(initializeUsers());
+    }
+  }, [dispatch, user]);
 
   return (
     <div>
       <Notification />
-      {!user && <LoginForm setUser={setUser} />}
+      {!user && <LoginForm />}
       <br />
       {user && (
         <div>
           <h2>blogs</h2>
           <div>
-            {user.name} logged in <button onClick={handleLogout}>logout</button>
+            {user.name} logged in{' '}
+            <button onClick={() => dispatch(logoutUser())}>logout</button>
           </div>
           <br />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <BlogsPage
-                  user={user}
-                  setUser={setUser}
-                  storageLoggedUserKey={storageLoggedUserKey}
-                />
-              }
-            />
+            <Route path="/" element={<BlogsPage />} />
             <Route path="/users" element={<UsersPage />} />
           </Routes>
         </div>

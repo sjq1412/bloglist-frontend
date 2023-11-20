@@ -4,19 +4,15 @@ import Togglable from '../components/Togglable';
 import BlogForm from '../components/BlogForm';
 import Blogs from '../components/Blogs';
 
-const BlogsPage = ({ user, setUser, storageLoggedUserKey }) => {
+const BlogsPage = () => {
   const blogFormRef = useRef();
 
   return (
     <>
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <BlogForm
-          blogFormRef={blogFormRef}
-          setUser={setUser}
-          storageLoggedUserKey={storageLoggedUserKey}
-        />
+        <BlogForm blogFormRef={blogFormRef} />
       </Togglable>
-      <Blogs user={user} />
+      <Blogs />
     </>
   );
 };
