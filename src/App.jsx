@@ -41,10 +41,12 @@ const App = () => {
             <Link to="/users">users</Link>
           </li>
         </ul>
-        <div className="nav-profile">
-          {user.name} logged in{' '}
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
-        </div>
+        {user && (
+          <div className="nav-profile">
+            {user.name} logged in{' '}
+            <button onClick={() => dispatch(logoutUser())}>logout</button>
+          </div>
+        )}
       </nav>
       <Notification />
       {!user && <LoginForm />}
