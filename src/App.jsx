@@ -5,6 +5,8 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 
+import Layout from './layout';
+
 import BlogsPage from './pages/BlogsPage';
 import BlogPage from './pages/BlogPage';
 import UsersPage from './pages/UsersPage';
@@ -48,22 +50,25 @@ const App = () => {
           </div>
         )}
       </nav>
-      <Notification />
-      {!user && <LoginForm />}
-      <br />
-      {user && (
-        <div>
-          <h2>blog app</h2>
+      <Layout>
+        {' '}
+        <Notification />
+        {!user && <LoginForm />}
+        <br />
+        {user && (
+          <div>
+            <h2>blog app</h2>
 
-          <br />
-          <Routes>
-            <Route path="/" element={<BlogsPage />} />
-            <Route path="/blogs/:id" element={<BlogPage />} />
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/users/:id" element={<UserPage />} />
-          </Routes>
-        </div>
-      )}
+            <br />
+            <Routes>
+              <Route path="/" element={<BlogsPage />} />
+              <Route path="/blogs/:id" element={<BlogPage />} />
+              <Route path="/users" element={<UsersPage />} />
+              <Route path="/users/:id" element={<UserPage />} />
+            </Routes>
+          </div>
+        )}
+      </Layout>
     </div>
   );
 };
