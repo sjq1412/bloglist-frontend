@@ -18,8 +18,6 @@ const BlogPage = () => {
     state.blogs.find((blog) => blog.id === id),
   );
 
-  console.log({ blog });
-
   const handleLike = async (id) => {
     try {
       const blog = blogs.find((blog) => blog.id === id);
