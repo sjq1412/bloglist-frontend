@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 
+import Comments from '../components/Comments';
+
 const BlogPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -85,6 +87,8 @@ const BlogPage = () => {
       {blog.user && user.username === blog.user?.username && (
         <button onClick={() => handleRemove(blog)}>remove</button>
       )}
+      <br />
+      <Comments blog={blog} />
     </div>
   );
 };
