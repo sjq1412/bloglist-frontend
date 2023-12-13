@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
 
 import Layout from './layout';
-
-import BlogsPage from './pages/BlogsPage';
-import BlogPage from './pages/BlogPage';
-import UsersPage from './pages/UsersPage';
-import UserPage from './pages/UserPage';
+import AppRoutes from './AppRoutes';
 
 import './index.css';
 import { initializeBlogs } from './reducers/blogReducer';
@@ -58,14 +54,8 @@ const App = () => {
         {user && (
           <div>
             <h2>blog app</h2>
-
             <br />
-            <Routes>
-              <Route path="/" element={<BlogsPage />} />
-              <Route path="/blogs/:id" element={<BlogPage />} />
-              <Route path="/users" element={<UsersPage />} />
-              <Route path="/users/:id" element={<UserPage />} />
-            </Routes>
+            <AppRoutes />
           </div>
         )}
       </Layout>
