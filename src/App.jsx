@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Typography, Button } from '@mui/material';
 
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
@@ -42,7 +43,13 @@ const App = () => {
         {user && (
           <div className="nav-profile">
             {user.name} logged in{' '}
-            <button onClick={() => dispatch(logoutUser())}>logout</button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() => dispatch(logoutUser())}
+            >
+              logout
+            </Button>
           </div>
         )}
       </nav>
@@ -53,7 +60,9 @@ const App = () => {
         <br />
         {user && (
           <div>
-            <h2>blog app</h2>
+            <Typography variant="h2" component="h2" color="primary">
+              Blog App
+            </Typography>
             <br />
             <AppRoutes />
           </div>

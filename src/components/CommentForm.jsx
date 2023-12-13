@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
 
 import { commentToBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
@@ -53,7 +54,9 @@ const CommentForm = ({ id, blog }) => {
           onChange={(e) => setComment(e.target.value)}
           placeholder="enter comment"
         />
-        <button type="submit">add comment</button>
+        <Button type="submit" variant="contained" size="small">
+          add comment
+        </Button>
       </form>
     </div>
   );

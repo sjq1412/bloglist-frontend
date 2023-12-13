@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Typography, Button } from '@mui/material';
 import { setNotification } from '../reducers/notificationReducer';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 
@@ -62,13 +63,13 @@ const BlogPage = () => {
     }
   };
 
-  if (!blog) return <div>Blog not found</div>;
+  if (!blog) return <Typography color="error">Blog not found</Typography>;
 
   return (
     <div>
-      <h2>
+      <Typography variant="h4" color="primary">
         {blog.title} {blog.author}
-      </h2>
+      </Typography>
       <div>
         <a href={blog.url} target="_blank" rel="noreferrer">
           {blog.url}
@@ -76,14 +77,30 @@ const BlogPage = () => {
       </div>
       <div>
         likes <span className="likes">{blog.likes || 0}</span>{' '}
-        <button className="likeButton" onClick={() => handleLike(blog.id)}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className="likeButton"
+          onClick={() => handleLike(blog.id)}
+        >
           like
-        </button>
+        </Button>
       </div>
-      {blog?.user && <div>added by {blog?.user?.name}</div>}
+      {blog?.user && (
+        <Typography variant="caption" color="info">
+          added by {blog?.user?.name}
+        </Typography>
+      )}
       <br />
       {blog.user && user.username === blog.user?.username && (
-        <button onClick={() => handleRemove(blog)}>remove</button>
+        <Button
+          variant="contained"
+          size="small"
+          color="primary"
+          onClick={() => handleRemove(blog)}
+        >
+          remove
+        </Button>
       )}
       <br />
       <Comments blog={blog} />

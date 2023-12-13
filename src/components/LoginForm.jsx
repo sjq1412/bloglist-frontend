@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
+
 import { loginUser } from '../reducers/userReducer';
 
 const LoginForm = () => {
@@ -39,7 +41,9 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <Button variant="contained" type="submit">
+          login
+        </Button>
       </form>
     </div>
   );
