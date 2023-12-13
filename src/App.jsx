@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Typography, Button } from '@mui/material';
+import { Typography, IconButton, Tooltip } from '@mui/material';
+import { Logout as LogoutIcon } from '@mui/icons-material';
 
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
@@ -43,13 +44,15 @@ const App = () => {
         {user && (
           <div className="nav-profile">
             {user.name} logged in{' '}
-            <Button
-              variant="contained"
-              size="small"
-              onClick={() => dispatch(logoutUser())}
-            >
-              logout
-            </Button>
+            <Tooltip title="logout">
+              <IconButton
+                variant="contained"
+                size="small"
+                onClick={() => dispatch(logoutUser())}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         )}
       </nav>

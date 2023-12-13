@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, IconButton } from '@mui/material';
+import { ThumbUp as ThumbUpIcon } from '@mui/icons-material';
 import { setNotification } from '../reducers/notificationReducer';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 
@@ -77,14 +78,14 @@ const BlogPage = () => {
       </div>
       <div>
         likes <span className="likes">{blog.likes || 0}</span>{' '}
-        <Button
+        <IconButton
           variant="contained"
           color="secondary"
           className="likeButton"
           onClick={() => handleLike(blog.id)}
         >
-          like
-        </Button>
+          <ThumbUpIcon />
+        </IconButton>
       </div>
       {blog?.user && (
         <Typography variant="caption" color="info">

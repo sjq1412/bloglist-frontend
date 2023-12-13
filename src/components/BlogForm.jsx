@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import { setNotification } from '../reducers/notificationReducer';
@@ -91,9 +92,14 @@ const BlogForm = ({ blogFormRef }) => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button id="create-blog-button" type="submit">
+        <Button
+          variant="contained"
+          color="secondary"
+          id="create-blog-button"
+          type="submit"
+        >
           create
-        </button>
+        </Button>
       </form>
     </div>
   );
