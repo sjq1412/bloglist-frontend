@@ -68,7 +68,7 @@ const BlogPage = () => {
 
   return (
     <div>
-      <Typography variant="h4" color="primary">
+      <Typography variant="h4">
         {blog.title} {blog.author}
       </Typography>
       <div>

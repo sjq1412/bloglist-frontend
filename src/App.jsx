@@ -63,7 +63,7 @@ const App = () => {
         <br />
         {user && (
           <div>
-            <Typography variant="h2" component="h2" color="primary">
+            <Typography variant="h2" component="h2">
               Blog App
             </Typography>
             <br />
