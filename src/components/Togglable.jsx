@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Button } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 
 const Togglable = forwardRef((props, refs) => {
@@ -22,6 +23,8 @@ const Togglable = forwardRef((props, refs) => {
           variant="contained"
           color="secondary"
           onClick={toggleVisibility}
+          sx={{ mb: 2 }}
+          size="large"
         >
           {props.buttonLabel}
         </Button>
@@ -32,6 +35,9 @@ const Togglable = forwardRef((props, refs) => {
           variant="contained"
           color="secondary"
           onClick={toggleVisibility}
+          sx={{ mb: 2 }}
+          size="large"
+          endIcon={<CloseIcon />}
         >
           cancel
         </Button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Paper } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import Blog from './Blog';
@@ -12,9 +13,13 @@ const Blogs = () => {
 
   return (
     <div className="blogList">
-      {sortedBlogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} user={user} />
-      ))}
+      <Grid container>
+        {sortedBlogs.map((blog) => (
+          <Grid key={blog.id} item xs={12}>
+            <Blog blog={blog} user={user} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

@@ -2,8 +2,20 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Typography, Button, IconButton } from '@mui/material';
-import { ThumbUp as ThumbUpIcon } from '@mui/icons-material';
+import {
+  Typography,
+  IconButton,
+  Tooltip,
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+} from '@mui/material';
+import {
+  Link as LinkIcon,
+  ThumbUp as ThumbUpIcon,
+  Delete as DeleteIcon,
+} from '@mui/icons-material';
 import { setNotification } from '../reducers/notificationReducer';
 import { deleteBlog, likeBlog } from '../reducers/blogReducer';
 
@@ -68,42 +80,59 @@ const BlogPage = () => {
 
   return (
     <div>
-      <Typography variant="h4">
-        {blog.title} {blog.author}
-      </Typography>
-      <div>
-        <a href={blog.url} target="_blank" rel="noreferrer">
-          {blog.url}
-        </a>
-      </div>
-      <div>
-        likes <span className="likes">{blog.likes || 0}</span>{' '}
-        <IconButton
-          variant="contained"
-          color="secondary"
-          className="likeButton"
-          onClick={() => handleLike(blog.id)}
-        >
-          <ThumbUpIcon />
-        </IconButton>
-      </div>
-      {blog?.user && (
-        <Typography variant="caption" color="info">
-          added by {blog?.user?.name}
-        </Typography>
-      )}
-      <br />
-      {blog.user && user.username === blog.user?.username && (
-        <Button
-          variant="contained"
-          size="small"
-          color="primary"
-          onClick={() => handleRemove(blog)}
-        >
-          remove
-        </Button>
-      )}
-      <br />
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="h4" color="secondary">
+              {blog.title} {blog.author}
+            </Typography>
+          }
+          subheader={
+            blog?.user && (
+              <Typography color="info">added by {blog?.user?.name}</Typography>
+            )
+          }
+          action={
+            blog.user &&
+            user.username === blog.user?.username && (
+              <Tooltip title="Delete this blog">
+                <IconButton
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                  onClick={() => handleRemove(blog)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            )
+          }
+        />
+        <CardContent>
+          <div>
+            <Typography sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <LinkIcon />
+              <a href={blog.url} target="_blank" rel="noreferrer">
+                {blog.url}
+              </a>
+            </Typography>
+            <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+              <Tooltip title="like this blog">
+                <IconButton
+                  variant="contained"
+                  color="secondary"
+                  className="likeButton"
+                  onClick={() => handleLike(blog.id)}
+                  sx={{ left: -8 }}
+                >
+                  <ThumbUpIcon />
+                </IconButton>
+              </Tooltip>
+              <span className="likes">{blog.likes || 0}</span>
+            </Typography>
+          </div>
+        </CardContent>
+      </Card>
       <Comments blog={blog} />
     </div>
   );

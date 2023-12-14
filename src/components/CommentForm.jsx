@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
+import { Create as CreateIcon } from '@mui/icons-material';
 
 import { commentToBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import { logoutUser } from '../reducers/userReducer';
 
+const fieldStyle = {
+  marginTop: 2,
+  marginBottom: 2,
+  display: 'block',
+};
+
 const CommentForm = ({ id, blog }) => {
   const dispatch = useDispatch();
   const [comment, setComment] = useState('');
+  const [commentError, setCommentError] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     try {
       if (!comment) {
+        setCommentError(true);
         dispatch(
           setNotification({
             message: 'Comment must not be empty',
@@ -22,6 +31,7 @@ const CommentForm = ({ id, blog }) => {
           }),
         );
       } else {
+        setCommentError(false);
         dispatch(commentToBlog(id, comment));
         dispatch(
           setNotification({
@@ -46,15 +56,28 @@ const CommentForm = ({ id, blog }) => {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+      <form noValidate onSubmit={handleSubmit}>
+        <TextField
+          label="Comment"
+          color="secondary"
           name="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="enter comment"
+          sx={fieldStyle}
+          required
+          multiline
+          rows={4}
+          fullWidth
+          error={commentError}
         />
-        <Button type="submit" variant="contained" size="small">
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          color="secondary"
+          endIcon={<CreateIcon />}
+        >
           add comment
         </Button>
       </form>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -13,8 +14,12 @@ const UserPage = () => {
 
   return (
     <div>
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
+      <Typography color="secondary" variant="h4" gutterBottom>
+        {user.name}
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        added blogs
+      </Typography>
       {user.blogs.length ? (
         <ul>
           {user.blogs.map((blog) => (
@@ -22,7 +27,7 @@ const UserPage = () => {
           ))}
         </ul>
       ) : (
-        'User has no blogs'
+        <Typography color="error">User has no blogs</Typography>
       )}
     </div>
   );

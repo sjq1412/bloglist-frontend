@@ -1,21 +1,27 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Typography } from '@mui/material';
+import { Typography, Box, Grid } from '@mui/material';
 import CommentForm from './CommentForm';
 
 const Comments = ({ blog }) => {
   return (
-    <div>
-      <Typography variant="h5" color="secondary" gutterBottom>
-        comments
+    <Box mt={2}>
+      <Typography variant="h5" gutterBottom>
+        Comments
       </Typography>
       <CommentForm id={blog.id} blog={blog} />
-      <ul>
-        {blog.comments.map((comment, index) => (
-          <li key={uuidv4()}>{comment}</li>
-        ))}
-      </ul>
-    </div>
+      <Grid container>
+        <ul>
+          {blog.comments.map((comment) => (
+            <Grid key={uuidv4()} item xs={12}>
+              <li>
+                <Typography>{comment}</Typography>
+              </li>
+            </Grid>
+          ))}
+        </ul>
+      </Grid>
+    </Box>
   );
 };
 
