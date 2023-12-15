@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { resetNotification } from '../reducers/notificationReducer';
 
-const Notification = () => {
+const Notification = ({ style }) => {
   const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification);
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -11,11 +12,17 @@ import {
   AppBar,
   Toolbar,
   Avatar,
+  Popover,
+  Button,
 } from '@mui/material';
 import {
   Summarize as SummarizeIcon,
   Group as GroupIcon,
 } from '@mui/icons-material';
+
+import { logoutUser } from '../reducers/userReducer';
+
+import Notification from './Notification';
 
 const drawerWidth = 240;
 
@@ -44,19 +51,24 @@ const styles = {
     width: `calc(100% - ${drawerWidth}px)`,
   },
   toolbar: {
-    marginTop: 2,
+    marginTop: 6,
   },
   apptitle: {
     flexGrow: 1,
   },
   avatar: {
     marginLeft: 2,
+    width: '35px',
+    height: '35px',
   },
 };
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const links = [
     {
@@ -71,14 +83,47 @@ const Layout = ({ children }) => {
     },
   ];
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
     <div style={styles.root}>
       {/* app bar */}
       <AppBar sx={styles.appbar} elevation={0}>
         <Toolbar>
           <Typography sx={styles.apptitle}>Welcome To Blog List App</Typography>
-          <Typography>2023</Typography>
-          <Avatar src="/user.jpg" sx={styles.avatar} />
+          {user && (
+            <div className="nav-profile">
+              <Typography>{user.name}</Typography>
+            </div>
+          )}
+          <Avatar src="/user.jpg" sx={styles.avatar} onClick={handleClick} />
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+            <Button
+              color="secondary"
+              sx={{ p: 2 }}
+              onClick={() => dispatch(logoutUser())}
+            >
+              Logout
+            </Button>
+          </Popover>
         </Toolbar>
       </AppBar>
       {/* side drawer */}
@@ -111,6 +156,7 @@ const Layout = ({ children }) => {
       </Drawer>
       <Box sx={styles.page}>
         <Box sx={styles.toolbar} />
+        <Notification width={styles.appbar} />
         {children}
       </Box>
     </div>
