@@ -8,6 +8,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  AppBar,
+  Toolbar,
+  Avatar,
 } from '@mui/material';
 import {
   Summarize as SummarizeIcon,
@@ -37,6 +40,18 @@ const styles = {
   title: {
     padding: 2,
   },
+  appbar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+  },
+  toolbar: {
+    marginTop: 2,
+  },
+  apptitle: {
+    flexGrow: 1,
+  },
+  avatar: {
+    marginLeft: 2,
+  },
 };
 
 const Layout = ({ children }) => {
@@ -59,7 +74,13 @@ const Layout = ({ children }) => {
   return (
     <div style={styles.root}>
       {/* app bar */}
-
+      <AppBar sx={styles.appbar} elevation={0}>
+        <Toolbar>
+          <Typography sx={styles.apptitle}>Welcome To Blog List App</Typography>
+          <Typography>2023</Typography>
+          <Avatar src="/user.jpg" sx={styles.avatar} />
+        </Toolbar>
+      </AppBar>
       {/* side drawer */}
       <Drawer sx={styles.drawer} variant="permanent" anchor="left">
         <div>
@@ -88,7 +109,10 @@ const Layout = ({ children }) => {
           ))}
         </List>
       </Drawer>
-      <Box sx={styles.page}>{children}</Box>
+      <Box sx={styles.page}>
+        <Box sx={styles.toolbar} />
+        {children}
+      </Box>
     </div>
   );
 };

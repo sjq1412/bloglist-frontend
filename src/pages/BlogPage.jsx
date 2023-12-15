@@ -9,7 +9,7 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Button,
+  Avatar,
 } from '@mui/material';
 import {
   Link as LinkIcon,
@@ -82,6 +82,7 @@ const BlogPage = () => {
     <div>
       <Card>
         <CardHeader
+          avatar={<Avatar>{blog.author[0].toUpperCase()}</Avatar>}
           title={
             <Typography variant="h4" color="secondary">
               {blog.title} {blog.author}
